@@ -1,0 +1,13 @@
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+.venv/
+venv/
+.DS_Store
+
+# The page's build: node_modules and everything built from the sources.
+node_modules/
+web/dist/
+web/ui/dist/
+web/.cache/
