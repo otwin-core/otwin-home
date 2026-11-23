@@ -1,0 +1,14 @@
+line-length = 90
+target-version = "py310"
+
+[lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "NPY"]
+ignore = ["E501", "E731"]
+
+[lint.isort]
+# Otwin Home's own packages (and the tests' fixtures) are first-party for import sorting.
+known-first-party = ["ingest", "components", "calibration", "scenarios", "survey", "fixtures"]
+
+[lint.per-file-ignores]
+# the browser proof reads as a script of clicks: one check per line, several short calls
+"web/verify_wizard.py" = ["E701", "E702", "E501"]

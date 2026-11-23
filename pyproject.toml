@@ -1,0 +1,6 @@
+# Settings for the tools only: Otwin Home is a web page and its Python code,
+# not a package published to PyPI. See requirements.txt for what it needs.
+[tool.pytest.ini_options]
+testpaths = ["tests", "components", "ingest", "calibration", "scenarios", "survey"]
+addopts = "--doctest-modules -q"
+filterwarnings = ["error::DeprecationWarning"]

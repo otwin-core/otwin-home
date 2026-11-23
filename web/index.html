@@ -1,0 +1,62 @@
+<!doctype html>
+<!-- Otwin Home: a model of your home's energy, entirely in your browser.
+     A static site: build with build_bundle.py, serve dist/ from anywhere
+     (GitHub Pages included), or open dist/index.html from disk.
+
+     Everything here is a classic script on purpose: a browser refuses
+     modules from file://, where this page must still work. The React app
+     (ui/, built by Vite to one IIFE bundle) is app.js. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Otwin Home</title>
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+  <div id="root"></div>
+  <noscript>
+    <p><strong>Your files never leave this computer.</strong> There is no server, and nothing is uploaded.
+    This page needs JavaScript: everything, including the model of your home, runs here in your browser.</p>
+  </noscript>
+
+  <script src="questions.js"></script>
+  <script src="demos.js"></script>
+  <script src="build-info.js"></script>
+  <script>
+    /* Opened from the sources (web/index.html) rather than the
+       build (dist/index.html), the questions and the engine do not exist.
+       Open the build if there is one; otherwise say how to make it. */
+    if (typeof OTWIN_QUESTIONS === "undefined") {
+      const probe = document.createElement("script");
+      probe.src = "dist/build-info.js";
+      probe.onload = () => location.replace("dist/index.html");
+      probe.onerror = () => {
+        const box = document.createElement("section");
+        box.className = "unbuilt";
+        box.innerHTML =
+          "<h2>This page has not been built yet</h2>" +
+          "<p>This is the source of the page. The working page, with the engine " +
+          "inside it, is made by one command, run from the repository folder:</p>" +
+          "<pre>python web/build_bundle.py</pre>" +
+          "<p>Then open <code>web/dist/index.html</code> (or reload this " +
+          "page, which will open it for you).</p>";
+        document.getElementById("root").replaceChildren(box);
+      };
+      document.head.appendChild(probe);
+    }
+  </script>
+  <script src="client.js"></script>
+  <script>
+    /* questions.js, demos.js, build-info.js and client.js declare their values with
+       const, which is script scope, not window. The page is a bundle and
+       reads window, so hand them over here. */
+    window.OTWIN_QUESTIONS = typeof OTWIN_QUESTIONS === "undefined" ? undefined : OTWIN_QUESTIONS;
+    window.OTWIN_DEMOS = typeof OTWIN_DEMOS === "undefined" ? undefined : OTWIN_DEMOS;
+    window.OTWIN_BUILD = typeof OTWIN_BUILD === "undefined" ? undefined : OTWIN_BUILD;
+    window.OtwinHome = typeof OtwinHome === "undefined" ? undefined : OtwinHome;
+  </script>
+  <script src="app.js"></script>
+</body>
+</html>
