@@ -1,0 +1,49 @@
+# SLSA 3 provenance for the built site, with the OpenSSF generator
+# (https://github.com/slsa-framework/slsa-github-generator). The artifact
+# is web/dist packed as a tar; verify it with slsa-verifier.
+name: SLSA provenance
+
+on:
+  workflow_dispatch:
+  release:
+    types: [created]
+
+permissions: read-all
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      hashes: ${{ steps.hash.outputs.hashes }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: pip install -r requirements.txt
+      - name: Build the static site
+        run: python web/build_bundle.py
+      - name: Pack the artifact
+        run: tar -C web -czf otwin-home-site.tar.gz dist
+      - name: Generate subject for provenance
+        id: hash
+        run: |
+          set -euo pipefail
+          echo "hashes=$(sha256sum otwin-home-site.tar.gz | base64 -w0)" >> "${GITHUB_OUTPUT}"
+      - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        with:
+          name: otwin-home-site.tar.gz
+          path: otwin-home-site.tar.gz
+          if-no-files-found: error
+
+  provenance:
+    needs: [build]
+    permissions:
+      actions: read   # to read the workflow path
+      id-token: write # to sign the provenance
+      contents: write # to add assets to a release
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v2.1.0
+    with:
+      base64-subjects: "${{ needs.build.outputs.hashes }}"
+      upload-assets: true # on a release, the tar and its provenance join it
