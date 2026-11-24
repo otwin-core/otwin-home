@@ -1,13 +1,11 @@
 /* The controls, shared by the questions about a home and by a simulation:
  * the same thing is always set the same way.
  *
- *   Gauge      a temperature, on a semicircle from blue to red
+ *   Gauge      a temperature: a big figure over a violet track
  *   Slider     a number with a unit (m², kW, people, a year, € per kWh)
  *   Switch     off or on
  *   Segmented  three options or fewer, side by side
  *   OptionRow  more options, a row of labelled buttons
- *
- * Bauhaus like the rest: squares, circles, thick rules, flat colour.
  */
 import { useId, useRef } from "react";
 
@@ -59,50 +57,42 @@ export function Slider({ value, onChange, min, max, step = 1, unit = "", format,
   );
 }
 
-/* A temperature on a semicircle: drag or click along the arc, or use the
-   arrow keys. The arc goes from blue (cold) to red (hot); the needle marks
-   the value. */
+/* A temperature: the figure first, big and monospaced, over a violet
+   track. Drag or click along the track, or use the arrow keys. Same
+   family as the sliders: no needle, no gradient. */
 export function Gauge({ value, onChange, min = 16, max = 26, step = 0.5, name }) {
   const ref = useRef(null);
-  const W = 240;
-  const R = 96;
-  const cx = W / 2;
-  const cy = 112;
+  const W = 260;
+  const H = 92;
+  const X0 = 16;
+  const X1 = W - 16;
+  const TY = 64;
   const v = Math.min(max, Math.max(min, Number(value)));
   const frac = (v - min) / (max - min);
-  const angle = Math.PI * (1 - frac); // π at min (left) → 0 at max (right)
-  const nx = cx + R * Math.cos(angle);
-  const ny = cy - R * Math.sin(angle);
-  const gradId = `g${name || "gauge"}`;
+  const tx = X0 + frac * (X1 - X0);
   const snap = (x) => Math.round(x / step) * step;
-  const fromPoint = (clientX, clientY) => {
+  const fromPoint = (clientX) => {
     const box = ref.current.getBoundingClientRect();
-    const x = ((clientX - box.left) / box.width) * W - cx;
-    const y = cy - ((clientY - box.top) / box.height) * (cy + 20);
-    let a = Math.atan2(Math.max(y, 0), x); // 0..π
-    a = Math.min(Math.PI, Math.max(0, a));
-    const f = 1 - a / Math.PI;
+    const f = Math.min(1, Math.max(0, (((clientX - box.left) / box.width) * W - X0) / (X1 - X0)));
     onChange(Math.min(max, Math.max(min, snap(min + f * (max - min)))));
   };
   const onPointerDown = (e) => {
     e.preventDefault();
     ref.current.setPointerCapture(e.pointerId);
-    fromPoint(e.clientX, e.clientY);
+    fromPoint(e.clientX);
   };
   const onPointerMove = (e) => {
-    if (e.buttons & 1) fromPoint(e.clientX, e.clientY);
+    if (e.buttons & 1) fromPoint(e.clientX);
   };
   const onKey = (e) => {
     if (e.key === "ArrowRight" || e.key === "ArrowUp") onChange(Math.min(max, snap(v + step)));
     if (e.key === "ArrowLeft" || e.key === "ArrowDown") onChange(Math.max(min, snap(v - step)));
   };
-  const ticks = [];
-  for (let t = min; t <= max + 1e-9; t += (max - min) / 10) ticks.push(t);
   return (
     <div className="gauge" data-name={name}>
       <svg
         ref={ref}
-        viewBox={`0 0 ${W} ${cy + 20}`}
+        viewBox={`0 0 ${W} ${H}`}
         role="slider"
         tabIndex={0}
         aria-valuemin={min}
@@ -113,26 +103,15 @@ export function Gauge({ value, onChange, min = 16, max = 26, step = 0.5, name })
         onPointerMove={onPointerMove}
         onKeyDown={onKey}
       >
-        <defs>
-          <linearGradient id={gradId} x1="0" x2="1" y1="0" y2="0">
-            <stop offset="0" stopColor="#005bbb" />
-            <stop offset="0.5" stopColor="#ffc72c" />
-            <stop offset="1" stopColor="#e2231a" />
-          </linearGradient>
-        </defs>
-        <path d={`M ${cx - R} ${cy} A ${R} ${R} 0 0 1 ${cx + R} ${cy}`} fill="none" stroke={`url(#${gradId})`} strokeWidth="18" strokeLinecap="butt" />
-        {ticks.map((t) => {
-          const a = Math.PI * (1 - (t - min) / (max - min));
-          return <line key={t} x1={cx + (R - 14) * Math.cos(a)} y1={cy - (R - 14) * Math.sin(a)} x2={cx + (R - 9) * Math.cos(a)} y2={cy - (R - 9) * Math.sin(a)} stroke="#111111" strokeWidth="2" />;
-        })}
-        <line x1={cx} y1={cy} x2={nx} y2={ny} stroke="#111111" strokeWidth="4" strokeLinecap="round" />
-        <circle cx={cx} cy={cy} r="8" fill="#111111" />
-        <circle cx={nx} cy={ny} r="11" fill="#ffffff" stroke="#111111" strokeWidth="3" />
-        <text x={cx - R - 2} y={cy + 18} fontSize="12" fill="#444" textAnchor="middle">{`${min}°`}</text>
-        <text x={cx + R + 2} y={cy + 18} fontSize="12" fill="#444" textAnchor="middle">{`${max}°`}</text>
-        <text x={cx} y={cy - 28} fontSize="30" fontWeight="800" textAnchor="middle" fill="#111111">
+        <text x={X0} y="34" fontSize="28" fontWeight="700" fill="#1d1d1f" fontFamily="ui-monospace, Menlo, monospace">
           {`${v.toFixed(step < 1 ? 1 : 0)} °C`}
         </text>
+        <line x1={X0} x2={X1} y1={TY} y2={TY} stroke="#d2d2d7" strokeWidth="5" strokeLinecap="round" />
+        <line x1={X0} x2={tx} y1={TY} y2={TY} stroke="#7a2ffc" strokeWidth="5" strokeLinecap="round" />
+        <circle cx={tx} cy={TY} r="12" fill="#ffffff" stroke="#d2d2d7" strokeWidth="1.5" />
+        <circle cx={tx} cy={TY} r="4.5" fill="#7a2ffc" />
+        <text x={X0} y={TY + 24} fontSize="12" fill="#6e6e73">{`${min}°`}</text>
+        <text x={X1} y={TY + 24} fontSize="12" fill="#6e6e73" textAnchor="end">{`${max}°`}</text>
       </svg>
     </div>
   );

@@ -308,9 +308,6 @@ function Shell({ engineText, engineState, route, page, onMain, onHome, onDigital
     <div className="shell">
       <header className="top">
         <div className="brand">
-          <button type="button" className="gear" id="settings" onClick={onSettings} aria-label={t("settings")} title={t("settings")}>
-            <GearIcon />
-          </button>
           <button type="button" className="plain brand-name" id="to-main" onClick={onMain} aria-label={t("back_main")}>
             <span className="mark" aria-hidden="true">
               <i />
@@ -326,6 +323,9 @@ function Shell({ engineText, engineState, route, page, onMain, onHome, onDigital
             <span className="dot" />
             {engineText || t("engine_starting")}
           </span>
+          <button type="button" className="gear" id="settings" onClick={onSettings} aria-label={t("settings")} title={t("settings")}>
+            <GearIcon />
+          </button>
         </div>
       </header>
 
@@ -381,19 +381,19 @@ function Shell({ engineText, engineState, route, page, onMain, onHome, onDigital
   );
 }
 
-/* A gear, drawn here: eight teeth on a ring. */
+/* A gear, drawn here: a soft outline, round teeth, open centre. */
 function GearIcon() {
   const teeth = [];
   for (let i = 0; i < 8; i += 1) {
-    teeth.push(<rect key={i} x="-2.6" y="-14" width="5.2" height="6" transform={`rotate(${i * 45})`} />);
+    teeth.push(<line key={i} x1="0" y1="-9.5" x2="0" y2="-12.5" transform={`rotate(${i * 45})`} />);
   }
   return (
-    <svg viewBox="-16 -16 32 32" width="26" height="26" aria-hidden="true">
-      <g fill="currentColor">
+    <svg viewBox="-16 -16 32 32" width="24" height="24" aria-hidden="true">
+      <g stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" fill="none">
         {teeth}
-        <circle r="10" />
+        <circle r="7.6" />
+        <circle r="2.8" />
       </g>
-      <circle r="4" fill="#ffffff" />
     </svg>
   );
 }

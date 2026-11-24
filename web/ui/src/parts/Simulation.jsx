@@ -86,8 +86,9 @@ export function Simulation({ home, control, questions, onDigitalHome }) {
 
       <ol className="scenarios">
         {sims.scenarios.map((sc, i) => (
-          <li key={sc.id} className="scenario" data-scenario={sc.id} style={{ borderLeftColor: COLOURS[i + 1] }}>
+          <li key={sc.id} className="scenario" data-scenario={sc.id}>
             <div className="scenario-head">
+              <i className="dot" style={{ background: COLOURS[i + 1] }} aria-hidden="true" />
               <input type="text" className="scenario-name" value={sc.name} onChange={(e) => update(sc.id, { name: e.target.value })} aria-label={t("sim_name")} />
               <span className="small scenario-desc">{describe(sc.changes, sc.prices, byId, t, n)}</span>
               <span style={{ display: "flex", gap: 8 }}>

@@ -18,9 +18,9 @@ import { useEffect, useId, useRef, useState } from "react";
 
 import { useT } from "../../i18n";
 
-export const TWIN_BLUE = "#005bbb";
-export const MEASURED_BLACK = "#111111";
-export const SCENARIO_COLOURS = ["#e2231a", "#d9a300", "#5c5c57"];
+export const TWIN_BLUE = "#7a2ffc"; // the model is always the brand violet
+export const MEASURED_BLACK = "#1d1d1f";
+export const SCENARIO_COLOURS = ["#b45309", "#3d7c00", "#515154"];
 
 const MARGIN = { top: 18, right: 22, bottom: 42, left: 62 };
 

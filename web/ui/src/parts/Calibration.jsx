@@ -27,7 +27,7 @@ const STEPS = [
   { kind: "water", need: "optional", bill: true },
   { kind: "thermometer", need: "optional", bill: false },
 ];
-const COLOUR = { electricity: "#005bbb", weather: "#9a9a95", gas: "#e2231a", water: "#111111", thermometer: "#ffc72c" };
+const COLOUR = { electricity: "#7a2ffc", weather: "#6e6e73", gas: "#b45309", water: "#1d1d1f", thermometer: "#3d7c00" };
 
 export function Calibration({ home, control, onPick, fileInput, onHome, onSimulation, onEdit, onDemoHome, engineReady }) {
   const { t, n } = useT();
