@@ -83,7 +83,8 @@ def main() -> int:
         print(("  ok  " if cond else "  FAIL") + " " + name)
 
     def h1(page):
-        return page.locator("main h1").first.inner_text()
+        # case-insensitive: the skin decides the casing, the test checks the words
+        return page.locator("main h1").first.inner_text().upper()
 
     def shot(page, name):
         if shots:
@@ -162,7 +163,10 @@ def main() -> int:
             in page.locator('fieldset[data-question="size"] .slider-value').inner_text(),
         )
         page.locator(".actions button.primary").click()
-        ok("next → step 2", page.locator(".stepcount").inner_text().startswith("STEP 2"))
+        ok(
+            "next → step 2",
+            page.locator(".stepcount").inner_text().upper().startswith("STEP 2"),
+        )
         ok(
             "step 2: heating is a row of 4, heating power a slider, cooling a switch",
             page.locator('fieldset[data-question="heating"] .optrow button').count() == 4
@@ -184,7 +188,10 @@ def main() -> int:
         )
         page.locator('fieldset[data-question="cooling"] .switch').click()
         page.locator(".actions button.primary").click()
-        ok("next → step 3", page.locator(".stepcount").inner_text().startswith("STEP 3"))
+        ok(
+            "next → step 3",
+            page.locator(".stepcount").inner_text().upper().startswith("STEP 3"),
+        )
         ok(
             "step 3: the thermostat is a gauge, night a switch, people a slider, appliances switches",
             page.locator('fieldset[data-question="thermostat"] .gauge').count() == 1
@@ -203,7 +210,10 @@ def main() -> int:
         page.keyboard.press("ArrowLeft")
         page.locator(".actions button:not(.primary)").click()
         page.locator(".actions button:not(.primary)").click()
-        ok("back → step 1", page.locator(".stepcount").inner_text().startswith("STEP 1"))
+        ok(
+            "back → step 1",
+            page.locator(".stepcount").inner_text().upper().startswith("STEP 1"),
+        )
         page.wait_for_selector("#engine.ready", timeout=ENGINE_TIMEOUT)
         for _ in range(3):
             page.locator(".actions button.primary").click()
@@ -214,7 +224,7 @@ def main() -> int:
         )
         ok(
             "month and outdoor temperature outside, indoor inside",
-            "JAN" in page.locator(".house [data-flow=outdoor]").text_content()
+            "JAN" in page.locator(".house [data-flow=outdoor]").text_content().upper()
             and "°C" in page.locator(".house [data-flow=indoor]").text_content(),
         )
         page.locator(".house .info").click()
@@ -297,7 +307,7 @@ def main() -> int:
         page.click("#lost")
         ok(
             "'Reset' opens its menu",
-            page.locator("#lost").inner_text() == "RESET"
+            page.locator("#lost").inner_text().upper() == "RESET"
             and page.locator(".lost-menu").count() == 1
             and page.locator("#lost-all").count() == 1,
         )
@@ -408,9 +418,7 @@ def main() -> int:
             "'Undo this step' removes the water bill after confirming",
             page.locator('.step[data-step="water"] .filelist').count() == 0,
         )
-        INV = Path(
-            "/Users/javiermarin/.cache/claude-hfi/-Users-javiermarin-otwin/elm/tests/fixtures/invoices"
-        )
+        INV = INVOICES
         page.click("#lost")
         page.click("#lost-edit")
         page.wait_for_selector("fieldset")
@@ -551,7 +559,7 @@ def main() -> int:
         page.wait_for_selector('.result[data-state="ready"]', timeout=ENGINE_TIMEOUT)
         ok(
             "weather fetched → nothing is fitted by itself: the result card offers to build",
-            page.locator("#build").inner_text() == "BUILD MY DIGITAL HOME",
+            page.locator("#build").inner_text().upper() == "BUILD MY DIGITAL HOME",
         )
         t0 = time.perf_counter()
         page.click("#build")
@@ -572,7 +580,7 @@ def main() -> int:
         page.wait_for_selector('.result[data-state="stale"]', timeout=30000)
         ok(
             "a file changed after the build → the card says so and offers to update",
-            page.locator("#build").inner_text() == "UPDATE MY DIGITAL HOME",
+            page.locator("#build").inner_text().upper() == "UPDATE MY DIGITAL HOME",
         )
         t0 = time.perf_counter()
         page.click("#build")
@@ -599,11 +607,11 @@ def main() -> int:
         t0 = time.perf_counter()
         page.wait_for_selector(".sim-chart", timeout=CALIBRATION_TIMEOUT)
         ok(
-            f"today's curve simulated in {time.perf_counter() - t0:.0f}s: a blue D3 line with its band, totals",
+            f"today's curve simulated in {time.perf_counter() - t0:.0f}s: the twin's D3 line with its band, totals",
             page.locator(".sim-chart path.series.line").count() == 1
             and page.locator(".sim-chart path.band").count() == 1
             and page.locator(".sim-chart path.series.line").first.get_attribute("stroke")
-            == "#005bbb"
+            == "#7a2ffc"
             and page.locator(".sim-totals tbody tr").count() == 1,
         )
         ok(
@@ -699,10 +707,10 @@ def main() -> int:
         page.click("#to-calibration")
         page.wait_for_selector(".steps")
         ok(
-            "the fit's daily chart: the meter in black points, the twin in blue with its band, real dates",
+            "the fit's daily chart: the meter in ink points, the twin's line with its band, real dates",
             page.locator(".d3-chart circle.points").count() >= 28
             and page.locator(".d3-chart path.series.line").first.get_attribute("stroke")
-            == "#005bbb"
+            == "#7a2ffc"
             and page.locator(".d3-chart path.band").count() >= 1
             and "Jan" in page.locator(".d3-chart .axis.x").first.text_content(),
         )
@@ -770,7 +778,7 @@ def main() -> int:
         page.wait_for_selector('.result[data-state="stale"]', timeout=30000)
         ok(
             "touching a demo home's files → it is a home like any other, to be built again",
-            page.locator("#build").inner_text() == "UPDATE MY DIGITAL HOME",
+            page.locator("#build").inner_text().upper() == "UPDATE MY DIGITAL HOME",
         )
         page.click("#back-home")
         page.wait_for_selector(".page-links")

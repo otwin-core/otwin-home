@@ -52,7 +52,7 @@ export function Framer({ canvas, onRead, onCancel }) {
       <div className="framer-box" ref={box} style={{ width: w, height: h }}>
         <img src={url} width={w} height={h} alt="" draggable={false} />
         <svg width={w} height={h} className="framer-overlay">
-          <polygon points={points} fill="rgba(226,35,26,.08)" stroke="#e2231a" strokeWidth="3" />
+          <polygon points={points} fill="rgba(122,47,252,.08)" stroke="#7a2ffc" strokeWidth="3" />
         </svg>
         {corners.map((c, i) => (
           <button

@@ -34,7 +34,7 @@ export function Chip({ kind = "", children, ...rest }) {
  * it into three colours. Green keeps the heat well (A–C), orange fairly
  * (D–E), red loses it fast (F–G).
  */
-export const BAND_COLOUR = { green: "#0f8a3c", orange: "#f28c28", red: "#e2231a" };
+export const BAND_COLOUR = { green: "#c6ff3d", orange: "#e8870e", red: "#b8102e" };
 
 export function bandOf(letter) {
   if (!letter || letter === "–") return null;
