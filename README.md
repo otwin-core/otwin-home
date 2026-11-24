@@ -1,36 +1,69 @@
+<div align="center">
+
+<img src="https://raw.githubusercontent.com/otwin-core/otwin/main/assets/brand/logo-2400.png" width="50%" alt="otwin">
+
+<br><br>
+
+[![Open Otwin Home](https://img.shields.io/badge/Open%20Otwin%20Home-otwin--core.github.io%2Fotwin--home-7a2ffc?labelColor=1d1d1f)](https://otwin-core.github.io/otwin-home/)
+[![Tests](https://github.com/otwin-core/otwin-home/actions/workflows/ci.yml/badge.svg)](https://github.com/otwin-core/otwin-home/actions/workflows/ci.yml)
+[![License](https://img.shields.io/github/license/otwin-core/otwin-home?color=7a2ffc)](LICENSE)
+
+</div>
+
 # Otwin Home
 
-A digital copy of one household's home, built in the browser from the bills
-and readings the household already has, to see what the home costs, how well
-it keeps the heat, and what would change with a heat pump, insulation, air
-conditioning or another thermostat. Everything runs in the page: files never
-leave the computer.
+A digital copy of your home, built in your browser from the bills and
+readings you already have: what the home costs, how well it keeps the heat,
+and what would change with a heat pump, insulation, air conditioning or
+another thermostat. Everything happens inside the page — your files never
+leave your computer.
 
-Otwin Home is its own project. It runs on [Otwin](https://github.com/otwin-core/otwin),
-the open-source physics engine, which it installs from PyPI.
+**[Open Otwin Home](https://otwin-core.github.io/otwin-home/)** — it runs in
+the browser, with nothing to install.
+
+<div align="center">
+
+<img src="assets/otwin-home-demo.gif" width="100%" alt="Otwin Home, from the launch page to the simulation: a demo home is opened, its digital home is built from its bills, the home card shows the month on the ink card with the green house, and the next twelve months are simulated.">
+
+<sub>A demo home, from its bills to the simulation. Your own home works the
+same way: add your bills, build your digital home, and simulate the
+changes.</sub>
+
+</div>
+
+## What you can do
+
+1. **Describe your home** with a few controls (province, type, m², year,
+   heating, temperatures, people, appliances), or start from a demo home
+   whose bills are its own. The page answers at once with a first estimate:
+   a traffic light for how well the home keeps the heat, what a month
+   costs, and the home card.
+2. **Build your digital home.** Add your hourly electricity (free from
+   Datadis or your supplier), the weather of those days (fetched once you
+   say yes), and, if you have them, gas bills, water bills or a
+   thermometer's log. Bills come as a photo or a PDF and are read in the
+   page; you check the numbers before they count. The result says how well
+   your digital home matches your own meters, and how sure it is.
+3. **Simulate the next twelve months** on an average year's weather, as the
+   home is today, and beside it up to three changes — a heat pump instead
+   of the boiler, insulation, another temperature — each a curve with its
+   band, in euros or kWh.
+
+Otwin Home is its own project. It runs on
+[Otwin](https://github.com/otwin-core/otwin), the open-source physics
+engine, which it installs from PyPI, and it follows its own design guide,
+[DESIGN.md](DESIGN.md), built on the Otwin identity.
 
 - [ARCHITECTURE.md](ARCHITECTURE.md): how it is built, layer by layer, and
   the choices behind it.
 - [CHANGELOG.md](CHANGELOG.md): what changed, by session.
 
-## What a householder does
+## Your files never leave this computer
 
-1. **My home.** Describe the home with a few controls (province, type, m²,
-   year built, heating and its power, hot water, cooking, temperatures,
-   people, appliances), or start from a **demo home** whose bills we already
-   have. The page answers at once with a first estimate: a traffic light for
-   how well the home keeps the heat, what a month costs, and the house drawn
-   with what comes in and what the heating uses.
-2. **Your digital home.** A checklist, step by step: hourly electricity
-   (free from Datadis), the weather (fetched on consent), gas bills, water
-   bills, a thermometer's log. Bills come as a photo or a PDF and are read
-   in the page (no language model), the numbers checked before they count.
-   **Build my digital home** fits the model to the data; the page shows how
-   the model matches the meter, with its uncertainty, and warns when the
-   bills do not look like this home's.
-3. **Simulation.** The next twelve months on an average year's weather, as
-   the home is today, and beside it up to three changes made with the same
-   controls, each a curve with its band, in euros or kWh.
+There is no server. Reading your files and analysing your home run inside
+the browser, and nothing is uploaded. The only network request the page can
+make is the weather for your dates, from Open-Meteo, and only when you
+allow it.
 
 ## Build, serve, test
 
@@ -48,18 +81,3 @@ models. It also bakes the demo homes' fits (`demos.js`) and embeds the OCR
 models and runtime (`ocr-assets.js`). `build_bundle.py --check` says
 whether `dist/` matches the sources. Publishing to GitHub Pages is the
 manual workflow `.github/workflows/home-pages.yml`.
-
-## The code
-
-| Directory | What it is |
-| --- | --- |
-| `ingest/` | every household file to one checked time series: Datadis and distributor CSVs, Shelly and Tapo exports, Home Assistant, gas and water bills, Open-Meteo; a column mapper for anything else; and the rule-based reader of a bill's fields (`invoice.py`) |
-| `components/` | the home on the Otwin engine: boundaries, stores, exchanges, gains, machines, the thermal zone, schedules |
-| `survey/` | the questions, the typical twin built from the answers (`twin.py`), each province's typical year (`climate.py`), and the synthetic demo homes (`example.py`) |
-| `calibration/` | the fit: a month of hourly electricity (and gas bills, and a thermometer) in, a home with its uncertainties out |
-| `scenarios/` | what-ifs on a calibrated twin, with Spanish tariffs |
-| `web/py/` | the engine's session in the browser (`webmain.py`), every sentence it writes in English and Spanish (`texts.py`) |
-| `web/ui/` | the page: React, built by Vite into one classic script; the OCR pipeline (`src/ocr/`), the shared controls, the D3 charts |
-| `web/samples/` | the demo homes' files, regenerated by `make_samples.py` from the twin itself |
-| `examples/` | four runnable scripts on the engine alone: a January week in Madrid, a Seville summer, a calibration, the what-ifs |
-| `tests/` | the engine and the page's wiring, natively; the browser is proven by `web/verify_wizard.py` |

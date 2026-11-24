@@ -146,9 +146,11 @@ def test_the_hidden_month_test():
     guess, real = t["gas"]
     assert abs(guess / real - 1) < 0.05
     assert t["sentences"][0].startswith(
-        "We hid 15 Feb 2026 to 15 Mar 2026 from the model"
+        "We hid 15 Feb 2026 to 15 Mar 2026 from your digital home"
     )
-    assert t["sentences"][-1] == "Passed: the model predicts a month it never saw."
+    assert (
+        t["sentences"][-1] == "Passed: your digital home predicts a month it never saw."
+    )
     assert webmain.report()["trust"]["passed"]
     # one period: nothing to hide
     webmain.load_samples("gas_dec_jan")

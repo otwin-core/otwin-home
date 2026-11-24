@@ -295,7 +295,7 @@ TEXTS: dict[str, dict[str, str]] = {
             "measured how fast your home loses heat."
         ),
         "es": (
-            " Es a propósito: el modelo se ajustó a esta factura, y así midió lo rápido "
+            " Es a propósito: tu casa digital se ajustó a esta factura, y así midió lo rápido "
             "que tu casa pierde calor."
         ),
     },
@@ -350,7 +350,7 @@ TEXTS: dict[str, dict[str, str]] = {
     },
     "gas_shares": {
         "en": "Where your gas goes, by the twin: {shares}.",
-        "es": "Adónde va tu gas, según el modelo: {shares}.",
+        "es": "Adónde va tu gas, según tu casa digital: {shares}.",
     },
     "use_heating": {"en": "heating", "es": "calefacción"},
     "use_hot water": {"en": "hot water", "es": "agua caliente"},
@@ -469,8 +469,8 @@ TEXTS.update(
             "es": "Tu termómetro lee la temperatura de tu casa{pm}.",
         },
         "f_thermo_off": {
-            "en": "Your thermometer reads {k} °C {where} than your home on average{pm}, because of where it hangs or its calibration; the model allows for it.",
-            "es": "Tu termómetro marca {k} °C {where} que tu casa de media{pm}, por dónde está o por su calibración; el modelo lo tiene en cuenta.",
+            "en": "Your thermometer reads {k} °C {where} than your home on average{pm}, because of where it hangs or its calibration; your digital home allows for it.",
+            "es": "Tu termómetro marca {k} °C {where} que tu casa de media{pm}, por dónde está o por su calibración; tu casa digital lo tiene en cuenta.",
         },
         "warmer": {"en": "warmer", "es": "más"},
         "cooler": {"en": "cooler", "es": "menos"},
@@ -507,8 +507,8 @@ TEXTS.update(
             "es": "Las facturas de gas dan totales de semanas, no los picos que muestran el tamaño de tu caldera. Un termómetro interior lo mostraría.",
         },
         "r_no_heating": {
-            "en": "Your home has no heating or cooling in the model, so the meters cannot show how it gains or loses heat.",
-            "es": "Tu casa no tiene calefacción ni aire en el modelo, así que los contadores no muestran cómo gana o pierde calor.",
+            "en": "Your home has no heating or cooling in your digital home, so the meters cannot show how it gains or loses heat.",
+            "es": "Tu casa no tiene calefacción ni aire en tu casa digital, así que los contadores no muestran cómo gana o pierde calor.",
         },
         "r_no_electricity": {
             "en": "No hourly electricity was given. Add a month of it.",
@@ -532,20 +532,20 @@ TEXTS.update(
         },
         # confidence
         "conf_reliable": {
-            "en": "Reliable: the model matches {sources}, and every number it measured is well determined.",
-            "es": "Fiable: el modelo coincide con {sources}, y cada número que midió está bien determinado.",
+            "en": "Reliable: your digital home matches {sources}, and every number it measured is well determined.",
+            "es": "Fiable: tu casa digital coincide con {sources}, y cada número que midió está bien determinado.",
         },
         "conf_approximate": {
-            "en": "Approximate: the model matches {sources}. Known well: {good}. Only roughly: {rough}.",
-            "es": "Aproximado: el modelo coincide con {sources}. Bien conocido: {good}. Solo aproximado: {rough}.",
+            "en": "Approximate: your digital home matches {sources}. Known well: {good}. Only roughly: {rough}.",
+            "es": "Aproximado: tu casa digital coincide con {sources}. Bien conocido: {good}. Solo aproximado: {rough}.",
         },
         "conf_more": {
             "en": "We need more data for {poor}. The model does match {sources}.",
             "es": "Necesitamos más datos para {poor}. El modelo sí coincide con {sources}.",
         },
         "conf_mismatch": {
-            "en": "We need more data: the model does not yet reproduce {what}. Check your answers about the home: something that uses a lot of energy may be missing.",
-            "es": "Necesitamos más datos: el modelo todavía no reproduce {what}. Revisa las respuestas sobre tu casa: puede faltar algo que gaste mucha energía.",
+            "en": "We need more data: your digital home does not yet reproduce {what}. Check your answers about the home: something that uses a lot of energy may be missing.",
+            "es": "Necesitamos más datos: tu casa digital todavía no reproduce {what}. Revisa las respuestas sobre tu casa: puede faltar algo que gaste mucha energía.",
         },
         "src_electricity": {"en": "your electricity", "es": "tu electricidad"},
         "src_bills": {"en": "your gas bills", "es": "tus facturas de gas"},
@@ -583,12 +583,12 @@ TEXTS.update(
         },
         # the hidden-month test
         "trust_needs_two": {
-            "en": "Add another month of data: then we hide one month from the model and ask it to guess it.",
-            "es": "Añade otro mes de datos: entonces escondemos un mes al modelo y le pedimos que lo adivine.",
+            "en": "Add another month of data: then we hide one month from your digital home and ask it to guess it.",
+            "es": "Añade otro mes de datos: entonces escondemos un mes a tu casa digital y le pedimos que lo adivine.",
         },
         "trust_intro": {
-            "en": "We hid {period} from the model, let it learn from the other months, and asked it to guess the hidden one.",
-            "es": "Escondimos al modelo el periodo {period}, le dejamos aprender con los otros meses y le pedimos que lo adivinara.",
+            "en": "We hid {period} from your digital home, let it learn from the other months, and asked it to guess the hidden one.",
+            "es": "Escondimos a tu casa digital el periodo {period}, le dejamos aprender con los otros meses y le pedimos que lo adivinara.",
         },
         "trust_gas": {
             "en": "Gas: it guessed {guess} kWh; your bill says {real} kWh ({off}).",
@@ -604,8 +604,8 @@ TEXTS.update(
         },
         "pct_off": {"en": "{pct} % off", "es": "un {pct} % de diferencia"},
         "trust_pass": {
-            "en": "Passed: the model predicts a month it never saw.",
-            "es": "Superado: el modelo predice un mes que nunca vio.",
+            "en": "Passed: your digital home predicts a month it never saw.",
+            "es": "Superado: tu casa digital predice un mes que nunca vio.",
         },
         "trust_fail": {
             "en": "Not passed: the hidden month differs more than expected. Something may change between your months (the thermostat, who is at home).",
