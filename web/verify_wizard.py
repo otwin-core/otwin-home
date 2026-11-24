@@ -163,7 +163,10 @@ def main() -> int:
             in page.locator('fieldset[data-question="size"] .slider-value').inner_text(),
         )
         page.locator(".actions button.primary").click()
-        ok("next → step 2", page.locator(".stepcount").inner_text().upper().startswith("STEP 2"))
+        ok(
+            "next → step 2",
+            page.locator(".stepcount").inner_text().upper().startswith("STEP 2"),
+        )
         ok(
             "step 2: heating is a row of 4, heating power a slider, cooling a switch",
             page.locator('fieldset[data-question="heating"] .optrow button').count() == 4
@@ -185,7 +188,10 @@ def main() -> int:
         )
         page.locator('fieldset[data-question="cooling"] .switch').click()
         page.locator(".actions button.primary").click()
-        ok("next → step 3", page.locator(".stepcount").inner_text().upper().startswith("STEP 3"))
+        ok(
+            "next → step 3",
+            page.locator(".stepcount").inner_text().upper().startswith("STEP 3"),
+        )
         ok(
             "step 3: the thermostat is a gauge, night a switch, people a slider, appliances switches",
             page.locator('fieldset[data-question="thermostat"] .gauge').count() == 1
@@ -204,7 +210,10 @@ def main() -> int:
         page.keyboard.press("ArrowLeft")
         page.locator(".actions button:not(.primary)").click()
         page.locator(".actions button:not(.primary)").click()
-        ok("back → step 1", page.locator(".stepcount").inner_text().upper().startswith("STEP 1"))
+        ok(
+            "back → step 1",
+            page.locator(".stepcount").inner_text().upper().startswith("STEP 1"),
+        )
         page.wait_for_selector("#engine.ready", timeout=ENGINE_TIMEOUT)
         for _ in range(3):
             page.locator(".actions button.primary").click()
