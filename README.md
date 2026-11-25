@@ -4,11 +4,10 @@
 
 <br><br>
 
-[![Open Otwin Home](https://img.shields.io/badge/Open%20Otwin%20Home-otwin--core.github.io%2Fotwin--home-7a2ffc?labelColor=1d1d1f)](https://otwin-core.github.io/otwin-home/)
-[![Tests](https://github.com/otwin-core/otwin-home/actions/workflows/ci.yml/badge.svg)](https://github.com/otwin-core/otwin-home/actions/workflows/ci.yml)
-[![License](https://img.shields.io/github/license/otwin-core/otwin-home?color=7a2ffc)](LICENSE)
-[![SLSA Level 3](https://shields.io)](https://slsa.dev)
-
+[![Open Otwin Home](https://img.shields.io/badge/Open%20Otwin%20Home-otwin--core.github.io%2Fotwin--home-7a2ffc?style=flat-square&labelColor=1d1d1f)](https://otwin-core.github.io/otwin-home/)
+[![Tests](https://img.shields.io/github/actions/workflow/status/otwin-core/otwin-home/ci.yml?branch=main&style=flat-square&logo=githubactions&logoColor=white&label=tests&labelColor=1d1d1f)](https://github.com/otwin-core/otwin-home/actions/workflows/ci.yml)
+[![SLSA 3](https://img.shields.io/badge/SLSA-Build%20L3-7a2ffc?style=flat-square&labelColor=1d1d1f)](https://github.com/otwin-core/otwin-home/attestations)
+[![License](https://img.shields.io/github/license/otwin-core/otwin-home?style=flat-square&labelColor=1d1d1f)](LICENSE)
 </div>
 
 # Otwin Home
